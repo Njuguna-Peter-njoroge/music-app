@@ -8,7 +8,7 @@ import { LoggerMiddleware } from './common/middleware/logger--no-spec/logger.mid
 import { SongsController } from './songs/songs.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { createSongDto } from './songs/entities/create-song.entity';
+import { Song } from './songs/entities/create-song.entity';
 
 @Module({
   imports: [
@@ -21,7 +21,7 @@ import { createSongDto } from './songs/entities/create-song.entity';
       username: 'postgres',
       password: 'post123',
       database: 'spofity_backend',
-      entities: [createSongDto],
+      entities: [Song],
       synchronize: true,
     }),
   ],

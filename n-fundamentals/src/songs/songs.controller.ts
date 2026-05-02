@@ -46,12 +46,12 @@ export class SongsController {
     return this.songsService.findOne(id);
   }
 
-  //   @Put(':id') update() {
-  //     return 'update song on the based on id';
-  //   }
-  //   @Delete(':id') delete() {
-  //     return 'delete a song on the based on id';
-  //   }
+    @Put(':id') update() {
+      return 'update song on the based on id';
+    }
+    @Delete(':id') delete() {
+      return 'delete a song on the based on id';
+    }
 
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number): Promise<void> {

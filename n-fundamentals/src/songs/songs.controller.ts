@@ -1,10 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 import { CreateSongDto } from './dto/create-song.dto';
+import { Song } from './entities/create-song.entity';
 import { SongsService } from './songs.service';
 
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HttpException,
   HttpStatus,
@@ -16,11 +18,10 @@ import {
 @Controller('songs')
 export class SongsController {
   constructor(private songsService: SongsService) {}
-  @Post() create(@Body() createSongDto: CreateSongDto) {
-    const results = this.songsService.create(createSongDto);
-    return results;
+  @Post() create(@Body() createSongDto: CreateSongDto): Promise<Song> {
+    return this.songsService.create(createSongDto);
   }
-  @Get() findAll() {
+  @Get() findAll(): Promise<Song[]> {
     try {
       return this.songsService.findAll();
     } catch (error) {
@@ -41,8 +42,8 @@ export class SongsController {
       }),
     )
     id: number,
-  ) {
-    return `fetch song on the based on id ${typeof id}`;
+  ): Promise<Song> {
+    return this.songsService.findOne(id);
   }
 
   //   @Put(':id') update() {
@@ -51,4 +52,9 @@ export class SongsController {
   //   @Delete(':id') delete() {
   //     return 'delete a song on the based on id';
   //   }
+
+  @Delete(':id')
+  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.songsService.remove(id);
+  }
 }

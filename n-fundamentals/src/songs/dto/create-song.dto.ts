@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 import {
   IsArray,
   IsDateString,
@@ -10,18 +9,22 @@ import {
 export class CreateSongDto {
   @IsString()
   @IsNotEmpty()
-  readonly title;
+  readonly title: string;
 
   @IsNotEmpty()
   @IsArray()
   @IsString({ each: true })
-  readonly artists;
+  readonly artists: string[];
 
   @IsDateString()
   @IsNotEmpty()
-  readonly releasedDate?: Date;
+  readonly releasedDate: string;
 
   @IsMilitaryTime()
   @IsNotEmpty()
-  readonly duration?: Date;
+  readonly duration: string;
+
+  @IsString()
+  @IsNotEmpty()
+  readonly lyrics: string;
 }

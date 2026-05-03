@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { CreateSongDto } from './dto/create-song.dto';
+import { UpdateSongDto } from './dto/update-song.dto';
 import { Song } from './entities/create-song.entity';
 import { SongsService } from './songs.service';
 
@@ -13,6 +13,7 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
 } from '@nestjs/common';
 
 @Controller('songs')
@@ -46,12 +47,12 @@ export class SongsController {
     return this.songsService.findOne(id);
   }
 
-    @Put(':id') update() {
-      return 'update song on the based on id';
-    }
-    @Delete(':id') delete() {
-      return 'delete a song on the based on id';
-    }
+  @Put(':id') update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateSongDto: UpdateSongDto,
+  ): Promise<Song> {
+    return this.songsService.update(id, updateSongDto);
+  }
 
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number): Promise<void> {

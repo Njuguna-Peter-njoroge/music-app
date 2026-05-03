@@ -1,27 +1,38 @@
-### get all songs
-GET http://localhost:3000/songs
-
-###
-
-GET http://localhost:3000/songs/1
 
 ### create song
 POST http://localhost:3000/songs
 Content-Type: application/json
 
 { 
-"title": "Lasting Loverssss",
-"artists": ["Siagla"],
-"releasedDate" : "2022-07-29 00:00:00",
-"duration" :"02:34"
+"title": "Lovers",
+"artists": ["Siag"],
+"releasedDate" : "2022-07-28 00:00:00",
+"duration" :"02:24",
+"lyrics" :"im the keeper"
 }
 
-###
-X-Http-Method-Override: 
-PUT http://localhost:3000/songs/1
+### get all songs
+GET http://localhost:3000/songs
 
-###
+### find by id 
 
-DELETE http://localhost:3000/songs/1
+GET http://localhost:3000/songs/4
+
+
+### update song
+PUT http://localhost:3000/songs/4
+Content-Type: application/json
+
+{
+"title": "You for Me 5",
+"artists": ["Siagla", "Yan", "My"],
+"releasedDate": "2022-09-23",
+"duration": "02:23",
+"lyrics": "Sby, you're my adrenaline. Brought out this  yes other side of me"
+}
+
+### delete song
+
+DELETE http://localhost:3000/songs/3
 
 

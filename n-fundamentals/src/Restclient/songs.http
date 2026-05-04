@@ -16,11 +16,11 @@ GET http://localhost:3000/songs
 
 ### find by id 
 
-GET http://localhost:3000/songs/4
+GET http://localhost:3000/songs/6
 
 
 ### update song
-PUT http://localhost:3000/songs/4
+PUT http://localhost:3000/songs/5
 Content-Type: application/json
 
 {
@@ -37,5 +37,10 @@ DELETE http://localhost:3000/songs/3
 
 ### pagination
 http://localhost:3000/songs/?page=1&limit=2
+Content-Type: application/json
+
+
+### pagination
+GET http://localhost:3000/songs?sort=id
 Content-Type: application/json
 

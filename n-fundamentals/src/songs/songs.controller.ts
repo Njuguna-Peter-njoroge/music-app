@@ -61,7 +61,7 @@ export class SongsController {
     return this.songsService.remove(id);
   }
 
-  @Get( )
+  @Get()
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number = 1,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number = 10,
@@ -72,4 +72,15 @@ export class SongsController {
       limit,
     });
   }
+
+  // THIS USES QUERYBUILDER
+
+  //   @Get()
+  //   findAll(
+  //     @Query('page') page: number,
+  //     @Query('limit') limit: number,
+  //     @Query('sort') sort: string,
+  //   ) {
+  //     return this.songsService.findAll(page, limit, sort);
+  //   }
 }

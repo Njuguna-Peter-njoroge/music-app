@@ -30,6 +30,15 @@ export class SongsService {
     return this.songRepository.find();
   }
 
+  //   findAll(page = 1, limit = 10, sort = 'title'): Promise<Song[]> {
+  //   return this.songRepository
+  //     .createQueryBuilder('song')
+  //     .orderBy(`song.${sort}`, 'ASC')
+  //     .skip((page - 1) * limit)
+  //     .take(limit)
+  //     .getMany();
+  // }
+
   async findOne(id: number): Promise<Song> {
     const song = await this.songRepository.findOneBy({ id });
 

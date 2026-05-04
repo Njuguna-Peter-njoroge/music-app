@@ -35,4 +35,7 @@ Content-Type: application/json
 
 DELETE http://localhost:3000/songs/3
 
+### pagination
+http://localhost:3000/songs/?page=1&limit=2
+Content-Type: application/json
 

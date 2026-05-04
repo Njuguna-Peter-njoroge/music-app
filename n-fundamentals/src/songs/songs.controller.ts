@@ -21,9 +21,16 @@ import {
 @Controller('songs')
 export class SongsController {
   constructor(private songsService: SongsService) {}
+  // @Post() create(@Body() createSongDto: CreateSongDto): Promise<Song> {
+  //   return this.songsService.create(createSongDto);
+
+  // }
+
+  //USING QUERY BUILDER
   @Post() create(@Body() createSongDto: CreateSongDto): Promise<Song> {
     return this.songsService.create(createSongDto);
   }
+
   // @Get() findAll(): Promise<Song[]> {
   //   try {
   //     return this.songsService.findAll();

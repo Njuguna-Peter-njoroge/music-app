@@ -57,7 +57,7 @@ export class SongsController {
   }
 
   @Put(':id') update(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('id', ParseIntPipe) id: string,
     @Body() updateSongDto: UpdateSongDto,
   ): Promise<Song> {
     return this.songsService.update(id, updateSongDto);

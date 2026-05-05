@@ -51,7 +51,7 @@ export class SongsService {
   }
 
   //   findAll(page = 1, limit = 10, sort = 'title'): Promise<Song[]> {
-  //   return this.songRepository
+  //   return this.songRepository 
   //     .createQueryBuilder('song')
   //     .orderBy(`song.${sort}`, 'ASC')
   //     .skip((page - 1) * limit)
@@ -86,7 +86,7 @@ export class SongsService {
   //   });
   // }
 
-  async update(id: number, recordToUpdate: UpdateSongDto): Promise<Song> {
+  async update(id: string, recordToUpdate: UpdateSongDto): Promise<Song> {
     const result = await this.songRepository
       .createQueryBuilder()
       .update(Song)

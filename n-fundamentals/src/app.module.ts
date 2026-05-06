@@ -9,6 +9,8 @@ import { SongsController } from './songs/songs.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { Song } from './songs/entities/create-song.entity';
+import { Artist } from './songs/entities/artist.entity';
+import { User } from './songs/entities/user.entity';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { Song } from './songs/entities/create-song.entity';
       username: 'postgres',
       password: 'post123',
       database: 'spofity_backend',
-      entities: [Song],
+      entities: [Song, Artist,  User],
       synchronize: true,
     }),
   ],

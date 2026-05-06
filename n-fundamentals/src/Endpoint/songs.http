@@ -4,11 +4,11 @@ POST http://localhost:3000/songs
 Content-Type: application/json
 
 { 
-"title": "good lives",
-"artists": ["John palete"],
-"releasedDate" : "2022-07-28 00:00:00",
-"duration" :"02:24",
-"lyrics" :"God of other chances"
+"title": "good lives in us ",
+"artists": ["550e8400-e29b-41d4-a716-446655440000"],
+"releasedDate" : "2022-07-30 00:00:00",
+"duration" :"02:30",
+"lyrics" :"God of other chances will always award us"
 }
 
 ### get all songs

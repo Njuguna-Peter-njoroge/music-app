@@ -23,7 +23,7 @@ import { User } from './songs/entities/user.entity';
       username: 'postgres',
       password: 'post123',
       database: 'spofity_backend',
-      entities: [Song, Artist,  User],
+      entities: [Song, Artist, User],
       synchronize: true,
     }),
   ],

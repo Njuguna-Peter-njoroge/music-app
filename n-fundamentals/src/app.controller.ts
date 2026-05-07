@@ -1,5 +1,7 @@
-import { Controller, Get } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+import { Controller, Get, UseGuards, Request } from '@nestjs/common';
 import { AppService } from './app.service';
+import { JWTAuthGuard } from './common/Guards/authGuard';
 
 @Controller()
 export class AppController {
@@ -8,5 +10,13 @@ export class AppController {
   @Get()
   getHello(): string {
     return this.appService.getHello();
+  }
+  @Get('profile')
+  @UseGuards(JWTAuthGuard)
+  getProfile(
+    @Request()
+    req,
+  ) {
+    return req.user;
   }
 }

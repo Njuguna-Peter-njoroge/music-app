@@ -1,15 +1,21 @@
+import { User } from './../songs/entities/user.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UsersService } from './../users/users.service';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserLoginDto } from './Dto/luser-login.dto';
-import { User } from '../songs/entities/user.entity';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private jwtService: JwtService,
+  ) {}
 
-  async login(loginDto: UserLoginDto): Promise<Omit<User, 'password'>> {
+  async login(
+    loginDto: UserLoginDto,
+  ): Promise<{ User: Omit<User, 'password'>; accessToken: string }> {
     const user = await this.usersService.findOneByEmail(loginDto.email);
     console.log('LOGIN USER:', user);
     console.log('DB PASSWORD:', user?.password);
@@ -24,9 +30,22 @@ export class AuthService {
     if (!passwordMatched) {
       throw new UnauthorizedException('invalid credentials');
     }
-    console.log('DB PASSWORD:', user.password);
+
+    // remove password
     const { password, ...result } = user;
 
-    return result;
+    // JWT payload
+    const payload = {
+      email: user.email,
+      sub: user.id,
+    };
+
+    // generate token
+    const accessToken = this.jwtService.sign(payload);
+
+    return {
+      User: result,
+      accessToken,
+    };
   }
 }

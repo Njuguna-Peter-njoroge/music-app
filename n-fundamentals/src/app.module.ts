@@ -11,6 +11,8 @@ import { DataSource } from 'typeorm';
 import { Song } from './songs/entities/create-song.entity';
 import { Artist } from './songs/entities/artist.entity';
 import { User } from './songs/entities/user.entity';
+import { PlaylistModule } from './playlist/playlist.module';
+import { Playlist } from './songs/entities/playlist.entity';
 
 @Module({
   imports: [
@@ -23,9 +25,10 @@ import { User } from './songs/entities/user.entity';
       username: 'postgres',
       password: 'post123',
       database: 'spofity_backend',
-      entities: [Song, Artist, User],
+      entities: [Song, Artist, User, Playlist],
       synchronize: true,
     }),
+    PlaylistModule,
   ],
   controllers: [AppController],
   providers: [AppService],

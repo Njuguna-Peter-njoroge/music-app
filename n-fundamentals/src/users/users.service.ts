@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../songs/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -18,5 +18,13 @@ export class UsersService {
     const user = await this.userRepository.save(createUserDto);
     const { password: _password, ...result } = user;
     return result;
+  }
+
+  async findOne(data: Partial<User>): Promise<User> {
+    const user = await this.userRepository.findOneBy({ email: data.email });
+    if (!user) {
+      throw new UnauthorizedException('couldnt not  find user');
+    }
+    return user;
   }
 }

@@ -20,11 +20,8 @@ export class UsersService {
     return result;
   }
 
-  async findOne(data: Partial<User>): Promise<User> {
-    const user = await this.userRepository.findOneBy({ email: data.email });
-    if (!user) {
-      throw new UnauthorizedException('couldnt not  find user');
-    }
+  async findOneByEmail(email: string): Promise<User | null> {
+    const user = await this.userRepository.findOneBy({ email });
     return user;
   }
 }

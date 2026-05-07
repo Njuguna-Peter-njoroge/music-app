@@ -10,7 +10,9 @@ export class AuthService {
   constructor(private usersService: UsersService) {}
 
   async login(loginDto: UserLoginDto): Promise<Omit<User, 'password'>> {
-    const user = await this.usersService.findOne(loginDto);
+    const user = await this.usersService.findOneByEmail(loginDto.email);
+    console.log('LOGIN USER:', user);
+    console.log('DB PASSWORD:', user?.password);
     if (!user) {
       throw new UnauthorizedException('invalid credentials');
     }
@@ -22,6 +24,7 @@ export class AuthService {
     if (!passwordMatched) {
       throw new UnauthorizedException('invalid credentials');
     }
+    console.log('DB PASSWORD:', user.password);
     const { password, ...result } = user;
 
     return result;

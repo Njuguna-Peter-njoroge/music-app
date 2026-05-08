@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/require-await */
 import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import { authConstants } from '../../auth/auth.constants';
+import { PayloadType } from '../../auth/Types/payload.type';
 
 @Injectable()
 export class JWTStrategy extends PassportStrategy(Strategy) {
@@ -12,8 +14,12 @@ export class JWTStrategy extends PassportStrategy(Strategy) {
       secretOrKey: authConstants.secret, // 3.
     });
   }
-  async validate(payload: any) {
+  async validate(payload: PayloadType) {
     // 4.
-    return { userId: payload.sub, email: payload.email }; // 5.
+    return {
+      userId: payload.userId,
+      email: payload.email,
+      artistId: payload.artistId,
+    };
   }
 }

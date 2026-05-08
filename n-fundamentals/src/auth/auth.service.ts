@@ -5,12 +5,16 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserLoginDto } from './Dto/luser-login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
+import { ArtistService } from '../artist/artist.service';
+import { use } from 'passport';
+import { PayloadType } from './Types/payload.type';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private artistService: ArtistService,
   ) {}
 
   async login(
@@ -35,11 +39,14 @@ export class AuthService {
     const { password, ...result } = user;
 
     // JWT payload
-    const payload = {
+    const payload: PayloadType = {
       email: user.email,
-      sub: user.id,
+      userId: user.id,
     };
-
+    const artist = await this.artistService.findArtist(user.id);
+    if (artist) {
+      payload.artistId = artist.id;
+    }
     // generate token
     const accessToken = this.jwtService.sign(payload);
 

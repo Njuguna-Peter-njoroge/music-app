@@ -16,7 +16,9 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { JwtArtistGuard } from '../auth/JWT/jwt-artist.guard';
 
 @Controller('songs')
 export class SongsController {
@@ -27,7 +29,9 @@ export class SongsController {
   // }
 
   //USING QUERY BUILDER
-  @Post() create(@Body() createSongDto: CreateSongDto): Promise<Song> {
+  @Post()
+  @UseGuards(JwtArtistGuard)
+  create(@Body() createSongDto: CreateSongDto): Promise<Song> {
     return this.songsService.create(createSongDto);
   }
 

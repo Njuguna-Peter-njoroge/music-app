@@ -20,3 +20,9 @@ Content-Type: application/json
        "email": "peterpaul24@gmail.com",
       "password" : "Strongpassword12345!"
 }     
+
+### get profile
+
+GET http://localhost:3000/profile
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBldGVycGF1bDI0QGdtYWlsLmNvbSIsInN1YiI6IjI4NzM3NTg1LTJiNDEtNDQzZC1hYzVlLWI4MmUxN2MyMjQ1NCIsImlhdCI6MTc3ODI1MTkzOSwiZXhwIjoxNzc4MzM4MzM5fQ.i7x6s0W8mtJb5c9RtV8h9JkjeIvkoKA0shZXZTyeEbU

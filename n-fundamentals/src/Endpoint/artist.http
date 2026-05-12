@@ -1,0 +1,12 @@
+POST http://localhost:3000/songs
+Authorization: Bearer
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InBldGVycGF1bDI0NUBnbWFpbC5jb20iLCJ1c2VySWQiOiJhYjIzYjBmNC0zMTJjLTRkZWMtODQzZC02ZGJjMTI5MjI3OGEiLCJhcnRpc3RJZCI6ImJmM2MzMDE2LTQyZjktNDQ5My04N2QwLTZkMDg1MjBkM2UxNyIsImlhdCI6MTc3ODI1OTU1NSwiZXhwIjoxNzc4MzQ1OTU1fQ.KFIYK3zyuVfMVQxcxjF12jJvMm9JUE7X-R7P1UoQJqY
+Content-Type: application/json
+
+{
+"title": "You for me",
+"artists": ["bf3c3016-42f9-4493-87d0-6d08520d3e17"],
+"releasedDate" : "2022-08-29",
+"duration" :"02:34",
+"lyrics": "by, you're my adrenaline. Brought out this other"
+}

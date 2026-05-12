@@ -6,7 +6,7 @@ Content-Type: application/json
 {
       "firstName" :"john",
       "lastName" :"david",
-      "email": "peterpaul24@gmail.com",
+      "email": "peterpaul245@gmail.com",
       "password" : "Strongpassword12345!"
 }
 
@@ -17,7 +17,7 @@ POST  http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-       "email": "peterpaul24@gmail.com",
+       "email": "peterpaul245@gmail.com",
       "password" : "Strongpassword12345!"
 }     
 

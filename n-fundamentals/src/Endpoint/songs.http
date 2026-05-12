@@ -5,7 +5,7 @@ Content-Type: application/json
 
 { 
 "title": "good lives in us ",
-"artists": ["550e8400-e29b-41d4-a716-446655440000"],
+ "artists": ["bf3c3016-42f9-4493-87d0-6d08520d3e17"],
 "releasedDate" : "2022-07-30 00:00:00",
 "duration" :"02:30",
 "lyrics" :"God of other chances will always award us"

@@ -24,4 +24,10 @@ have added Exclude.*/
 
   @OneToMany(() => Playlist, (Playlist) => Playlist.user)
   Playlists: Playlist[];
+
+  @Column({ nullable: true, type: 'text' })
+  twoFASecret: string;
+
+  @Column({ default: false, type: 'boolean' })
+  enable2FA: boolean;
 }

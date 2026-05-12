@@ -1,3 +1,4 @@
+import { enable2FAType } from './Types/auth-types';
 import { User } from './../songs/entities/user.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UsersService } from './../users/users.service';
@@ -8,6 +9,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ArtistService } from '../artist/artist.service';
 import { use } from 'passport';
 import { PayloadType } from './Types/payload.type';
+import * as speakeasy from 'speakeasy';
 
 @Injectable()
 export class AuthService {
@@ -54,5 +56,18 @@ export class AuthService {
       User: result,
       accessToken,
     };
+  }
+
+  async enable2FA(userId: string): Promise<enable2FAType> {
+    const user = await this.usersService.findOne(userId);
+    if (user.enable2FA) {
+      return { secret: user.twoFASecret };
+    }
+
+    const secret = speakeasy.generateSecret();
+    console.log(secret);
+    user.twoFASecret = secret.base32;
+    await this.usersService.updateSecretKey(user.id, user.twoFASecret);
+    return { secret: user.twoFASecret };
   }
 }

@@ -26,7 +26,7 @@ have added Exclude.*/
   Playlists: Playlist[];
 
   @Column({ nullable: true, type: 'text' })
-  twoFASecret: string;
+  twoFASecret: string | null;
 
   @Column({ default: false, type: 'boolean' })
   enable2FA: boolean;

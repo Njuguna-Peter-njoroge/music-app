@@ -2,7 +2,11 @@ import { enable2FAType } from './Types/auth-types';
 import { User } from './../songs/entities/user.entity';
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { UsersService } from './../users/users.service';
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UserLoginDto } from './Dto/luser-login.dto';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
@@ -10,6 +14,8 @@ import { ArtistService } from '../artist/artist.service';
 import { use } from 'passport';
 import { PayloadType } from './Types/payload.type';
 import * as speakeasy from 'speakeasy';
+import { Repository, UpdateResult } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class AuthService {
@@ -17,6 +23,8 @@ export class AuthService {
     private usersService: UsersService,
     private jwtService: JwtService,
     private artistService: ArtistService,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   async login(
@@ -60,14 +68,27 @@ export class AuthService {
 
   async enable2FA(userId: string): Promise<enable2FAType> {
     const user = await this.usersService.findOne(userId);
+    if (!user.twoFASecret) {
+      throw new NotFoundException('user not found');
+    }
     if (user.enable2FA) {
       return { secret: user.twoFASecret };
     }
 
     const secret = speakeasy.generateSecret();
     console.log(secret);
-    user.twoFASecret = secret.base32;
+    // user.twoFASecret = secret.base32;
     await this.usersService.updateSecretKey(user.id, user.twoFASecret);
+
     return { secret: user.twoFASecret };
+  }
+  async disable2FA(userId: string): Promise<UpdateResult> {
+    return this.userRepository.update(
+      { id: userId },
+      {
+        twoFASecret: null,
+        enable2FA: false,
+      },
+    );
   }
 }

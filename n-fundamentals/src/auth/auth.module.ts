@@ -7,9 +7,12 @@ import { JwtModule } from '@nestjs/jwt';
 import { authConstants } from './auth.constants';
 import { PassportModule } from '@nestjs/passport';
 import { ArtistModule } from '../artist/artist.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from '../songs/entities/user.entity';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([User]),
     PassportModule,
     UsersModule,
     JwtModule.register({

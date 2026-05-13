@@ -29,7 +29,10 @@ export class AuthService {
 
   async login(
     loginDto: UserLoginDto,
-  ): Promise<{ User: Omit<User, 'password'>; accessToken: string }> {
+  ): Promise<
+    | { User: Omit<User, 'password'>; accessToken: string }
+    | { validate2FA: string; message: string }
+  > {
     const user = await this.usersService.findOneByEmail(loginDto.email);
     console.log('LOGIN USER:', user);
     console.log('DB PASSWORD:', user?.password);
@@ -53,42 +56,80 @@ export class AuthService {
       email: user.email,
       userId: user.id,
     };
-    const artist = await this.artistService.findArtist(user.id);
-    if (artist) {
-      payload.artistId = artist.id;
+    if (user.enable2FA && user.twoFASecret) {
+      return {
+        validate2FA: 'http://localhost:3000/auth/validate-2fa',
+        message:
+          'Please send the one-time password/token from your Google Authenticator App',
+      };
     }
     // generate token
-    const accessToken = this.jwtService.sign(payload);
 
     return {
       User: result,
-      accessToken,
+      accessToken: this.jwtService.sign(payload),
     };
   }
 
   async enable2FA(userId: string): Promise<enable2FAType> {
     const user = await this.usersService.findOne(userId);
-    if (!user.twoFASecret) {
+    if (!user) {
       throw new NotFoundException('user not found');
     }
-    if (user.enable2FA) {
+    if (user.enable2FA && user.twoFASecret) {
       return { secret: user.twoFASecret };
     }
 
     const secret = speakeasy.generateSecret();
     console.log(secret);
     // user.twoFASecret = secret.base32;
-    await this.usersService.updateSecretKey(user.id, user.twoFASecret);
+    await this.usersService.updateSecretKey(user.id, secret.base32);
 
-    return { secret: user.twoFASecret };
+    return { secret: secret.base32 };
   }
-  async disable2FA(userId: string): Promise<UpdateResult> {
-    return this.userRepository.update(
+  async disable2FA(
+    userId: string,
+  ): Promise<{ message: string; result: UpdateResult }> {
+    const result = await this.userRepository.update(
       { id: userId },
       {
         twoFASecret: null,
         enable2FA: false,
       },
     );
+    return {
+      message: 'secret diasbled successfully',
+      result,
+    };
+  }
+
+  async validate2FAToken(
+    userId: string,
+    token: string,
+  ): Promise<{ verified: boolean }> {
+    try {
+      const user = await this.usersService.findOne(userId);
+      if (!user.twoFASecret) {
+        throw new NotFoundException('2fa is not enabled');
+      }
+
+      console.log('SECRET:', user.twoFASecret);
+      console.log('TOKEN:', token);
+      const verified = speakeasy.totp.verify({
+        secret: user.twoFASecret,
+        token,
+        encoding: 'base32',
+        window: 1, // allows ±30 sec drift
+      });
+
+      if (verified) {
+        return { verified: true };
+      } else {
+        return { verified: false };
+      }
+    } catch (err) {
+      console.error('2FA ERROR:', err);
+      throw new UnauthorizedException('error verifying token');
+    }
   }
 }

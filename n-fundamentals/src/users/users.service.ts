@@ -45,8 +45,8 @@ export class UsersService {
     return this.userRepository.update(
       { id },
       {
-        twoFASecret: null,
-        enable2FA: false,
+        twoFASecret: secret,
+        enable2FA: true,
       },
     );
   }

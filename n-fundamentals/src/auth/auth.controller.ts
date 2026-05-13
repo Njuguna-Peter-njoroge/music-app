@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 import { UpdateResult } from 'typeorm/browser';
 import { User } from '../songs/entities/user.entity';
 import { CreateUserDto } from '../users/Dto/create-user.dto';
@@ -9,6 +12,7 @@ import { JWTAuthGuard } from '../common/Guards/authGuard';
 import { enable2FAType } from './Types/auth-types';
 import { PayloadType } from './Types/payload.type';
 import { Request } from 'express';
+import { ValidateTokenDto } from './Dto/validate-token.dto';
 @Controller('auth')
 export class AuthController {
   constructor(
@@ -40,7 +44,20 @@ export class AuthController {
   @UseGuards(JWTAuthGuard)
   disable2FA(
     @Req() req: Request & { user: { userId: string } },
-  ): Promise<UpdateResult> {
+  ): Promise<{ message: string; result: UpdateResult }> {
     return this.authService.disable2FA(req.user.userId);
+  }
+
+  @Post('validate-2FA')
+  @UseGuards(JWTAuthGuard)
+  validate2FA(
+    @Req() req: { user: PayloadType },
+    @Body()
+    validateTokenDto: ValidateTokenDto,
+  ): Promise<{ verified: boolean }> {
+    return this.authService.validate2FAToken(
+      req.user.userId,
+      validateTokenDto.token,
+    );
   }
 }

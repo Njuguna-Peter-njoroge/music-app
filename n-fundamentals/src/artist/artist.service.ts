@@ -11,7 +11,7 @@ export class ArtistService {
   ) {}
 
   async findArtist(userId: string): Promise<Artist> {
-        console.log('Incoming userId:', userId);
+    console.log('Incoming userId:', userId);
 
     const artist = await this.artistRepository.findOne({
       where: {
